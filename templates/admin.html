@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Flat Design Login Form Example</title>
+  <link rel="stylesheet" href="{% static 'styles/auth.css' %}">
+
+</head>
+<body>
+
+<div class="login-page">
+    <div class="form">
+        <p>Fill fields and press add button to add the poll</p>
+        {% if done %}
+            <p style="color: green;">Poll added!</p>
+        {% endif %}
+        <form action="" class="quiz-create-form" method="POST">
+        <input type="text" placeholder="title" name="title"/>
+        <input type="text" placeholder="First option" name="firstOption"/>
+        <input type="text" placeholder="Second option" name="secondOption"/>
+        <input type="submit" class="submit" value="Add quiz."></input>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

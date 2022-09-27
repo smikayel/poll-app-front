@@ -1,0 +1,20 @@
+{
+  "Content-Length": "",
+  "Content-Type": "text/plain",
+  "Host": "localhost:8080",
+  "Connection": "keep-alive",
+  "Cache-Control": "max-age=0",
+  "Sec-Ch-Ua": "\"Google Chrome\";v=\"105\", \"Not)A;Brand\";v=\"8\", \"Chromium\";v=\"105\"",
+  "Sec-Ch-Ua-Mobile": "?0",
+  "Sec-Ch-Ua-Platform": "\"Windows\"",
+  "Upgrade-Insecure-Requests": "1",
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+  "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+  "Sec-Fetch-Site": "none",
+  "Sec-Fetch-Mode": "navigate",
+  "Sec-Fetch-User": "?1",
+  "Sec-Fetch-Dest": "document",
+  "Accept-Encoding": "gzip, deflate, br",
+  "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+  "Cookie": "csrftoken=sTnXoJGpt5HRQeJdr4awjDYEnAm3Fmka; Authorization=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1dWlkIjoiNGJjOWEyYWItM2E4NC0xMWVkLWEyNTgtNTg2YzI1OWQyOTI2IiwidXNlcm5hbWUiOiJ1c3RlciIsImlzQWRtaW4iOnRydWUsImV4cCI6MTY2NDE5MzI4MSwiaWF0IjoxNjY0MTg5NjgxfQ.4gWo5ZcEmrXH0V3ap_vg4OyRx4R7TONDF-qrcHIlIUg"
+}
