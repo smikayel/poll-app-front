@@ -4,7 +4,7 @@ from django.shortcuts import render
 import requests
 from django.shortcuts import redirect
 import jwt
-
+import math
 
 BASE_URL = "http://localhost:8000/api/v1/"
 
@@ -45,7 +45,6 @@ def register(request):
 
 #delete poll request
 def dell_request(request, header, poll_uuid):
-    print(poll_uuid)
     delResponse = requests.delete(BASE_URL + 'poll', headers=header, data=json.dumps({"poll-uuid": poll_uuid}))
 
 
@@ -64,11 +63,47 @@ def render_voted(request, headers, payload, polls):
 
 #get all pols 
 def get_polls(request, headers, payload):
-    resPost = requests.get( BASE_URL + "poll",  headers=headers)
+   
+    resPost = requests.get( BASE_URL + "poll/pagination/0-10",  headers=headers)
+    if resPost.status_code == 200:
+        resPagesUrl = requests.get(BASE_URL + "home-pages-count", headers=headers)
+        pages_urls = resPagesUrl.json()["data"]
+        data = render_voted(request, headers, payload, resPost.json()["data"])
+        return render(request, "home.html", context={"polls":data, "isAdmin": payload["isAdmin"], "pagination": pages_urls})
+    else: return render(request, "home.html")
+
+#home pagination
+def home_pages(request, page_number):
+    if request.method == "POST":
+        home(request)
+    try:
+        page = int(page_number) - 1
+    except:
+        page = 0
+    
+    try:
+        token =  request.COOKIES.get('Authorization') 
+        payload = jwt.decode(token, 'secret', algorithms=["HS256"])
+    except:
+        return redirect('user/auth')
+
+    headers = {
+        "Content-Type": "application/json; charset=utf-8",
+        "Authorization": request.COOKIES.get('Authorization') 
+    }
+    resPagesUrl = requests.get(BASE_URL + "home-pages-count", headers=headers)
+    pages_urls = resPagesUrl.json()["data"]
+    resPost = requests.get( BASE_URL + pages_urls[page]["links"],  headers=headers)
     if resPost.status_code == 200:
         data = render_voted(request, headers, payload, resPost.json()["data"])
-        return render(request, "home.html", context={"polls":data, "isAdmin": payload["isAdmin"]})
+        return render(request, "home.html", context={"polls":data, "isAdmin": payload["isAdmin"], "pagination": pages_urls})
+
     else: return render(request, "home.html")
+
+
+
+
+
 
 #home page
 def home(request):
@@ -80,11 +115,28 @@ def home(request):
     try:
         payload = jwt.decode(token, 'secret', algorithms=["HS256"])
     except:
-        return redirect('user/post')
+        return redirect('user/auth')
     if request.method == "GET":
        return get_polls(request, headers, payload)
     elif request.method == "POST":
-        uuid ,firstOption, secondOption = request.POST.get("uuid"), request.POST.getlist('firstOption'), request.POST.getlist('secondOption')
+        uuid ,firstOption, secondOption, action = request.POST.get("uuid"), request.POST.getlist('firstOption'), request.POST.getlist('secondOption'), request.POST.get("action_type")
+        print(action)
+        #deactivate the poll
+        if action == "deactivate":
+            data = {
+                "poll-uuid": uuid,
+                "isActive": False
+            }
+            resDeactivate = requests.put(BASE_URL + "poll", headers=headers, data=json.dumps(data))
+            return get_polls(request, headers, payload)
+        elif action == "activate":
+            data = {
+                "poll-uuid": uuid,
+                "isActive": True
+            }
+            resDeactivate = requests.put(BASE_URL + "poll", headers=headers, data=json.dumps(data))
+            return get_polls(request, headers, payload)
+        #dellete poll
         if not firstOption and not secondOption:
             dell_request(request, headers, uuid)
             return get_polls(request, headers, payload)

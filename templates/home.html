@@ -10,15 +10,35 @@
 <body>
 <!-- partial:index.partial.html -->
 <div class="quiz">
+    <div style="display: inline-block;">
+        {% if pagination %}
+            {% for url in pagination %}
+                <a style="color: black; float: left; padding: 8px 16px; text-decoration: none;" href=/home/{{url.index}}>{{url.index}}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
     {% if polls%}
         {% for poll in polls %}
             
             <div class="form">
                 {% if isAdmin %}
-                    <form action="" method="POST">
-                        <input name="uuid" value="{{poll.uuid}}" style="display:none;"></input>
-                        <input type="submit" class="dellete-submit"  value="delete"></input>
-                    </form>
+                <form action="" method="POST">
+                    <input name="uuid" value="{{poll.uuid}}" style="display:none;"></input>
+                    <input type="submit" class="dellete-submit"  value="delete"></input>
+                </form>
+                    {% if not poll.isActive %}
+                        <form action="" method="POST">
+                            <input name="action_type" value="activate" style="display:none;"></input>
+                            <input name="uuid" value="{{poll.uuid}}" style="display:none;"></input>
+                            <input type="submit" class="deactive-submit"  value="activate"></input>
+                        </form>
+                    {% else %}
+                        <form action="" method="POST">
+                            <input name="action_type" value="deactivate" style="display:none;"></input>
+                            <input name="uuid" value="{{poll.uuid}}" style="display:none;"></input>
+                            <input type="submit" class="deactive-submit"  value="deactivate"></input>
+                        </form>
+                    {% endif %}
                 {% endif %}
                 <form action="" class="poll-form" method="POST">
                 <h3>{{poll.title}}</h3>
@@ -36,27 +56,16 @@
                     <p style="font-size: 11px; color: rgb(37, 37, 37); ">second:{{ poll.secondOptionVoteCount}} votes</p>
 
                 </div>
-                {% if not poll.voted %} 
-                    <input type="submit" class="submit" value="vote"></input> <!-- remove button if voted -->
+                {% if poll.isActive %}
+                    {% if not poll.voted %} 
+                        <input type="submit" class="submit" value="vote"></input> <!-- remove button if voted -->
+                    {% endif %}
+                {% else %}
+                    <p style="color:rgb(107, 9, 9)">Sorry vote session is closed!</p>
                 {% endif %}
-
+            
                 </form>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
         {% endfor %}
     {% else %}
         

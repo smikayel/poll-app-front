@@ -10,8 +10,6 @@ urlpatterns = [
     path('user/auth', views.index, name='index'),
     path("register", views.register, name='register'),
     path("home", views.home, name="home_page"),
-
-
-
+    path('home/<page_number>', views.home_pages, name='home_pagination'),
     path("admin-panel", views.adminPanel, name="admin")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
