@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Flat Design Login Form Example</title>
+  <link rel="stylesheet" href="{% static 'styles/auth.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="login-page">
+  <div class="form">
+    {% if done%}
+    <p style="color:green;">Your account created...</p>
+    {% endif %}
+    {% if error%}
+      <p style="color:brown;">{{error}}</p>
+    {% endif %}
+    <form class="register-form" method="post" action="">
+      <input type="text" name="username" placeholder="name"/>
+      <input type="password" name="password" placeholder="password"/>
+      <input type="text" name="email" placeholder="email address"/>
+      <input type="submit" class="submit" value="Registration"></input>
+      <p class="message">Already registered? <a href="user/auth">Sign In</a></p>
+    </form>
+  </div>
+</div>
+<!-- partial -->
+
+</body>
+</html>

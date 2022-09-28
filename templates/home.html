@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Flat Design Login Form Example</title>
+  <link rel="stylesheet" href="{% static 'styles/home.css' %}">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="quiz">
+    {% if polls%}
+        {% for poll in polls %}
+            
+            <div class="form">
+                {% if isAdmin %}
+                    <form action="" method="POST">
+                        <input name="uuid" value="{{poll.uuid}}" style="display:none;"></input>
+                        <input type="submit" class="dellete-submit"  value="delete"></input>
+                    </form>
+                {% endif %}
+                <form action="" class="poll-form" method="POST">
+                <h3>{{poll.title}}</h3>
+                <input name="uuid" value="{{poll.uuid}}" style="display:none;"></input>
+                <div style="display: flex;justify-content: space-between;">
+                    <input type="checkbox" class="poll-chooes" name="firstOption"/> 
+                    <p>{{poll.firstOption}}</p>
+                </div>
+                <div style="display: flex;justify-content: space-between;">
+                    <input type="checkbox"  class="poll-chooes" name="secondOption"/>
+                    <p>{{poll.secondOption}}</p>
+                </div>
+                <div>
+                    <p style="font-size: 11px; color: rgb(37, 37, 37);">first:{{ poll.firstOptionVoteCount}} votes</p>
+                    <p style="font-size: 11px; color: rgb(37, 37, 37); ">second:{{ poll.secondOptionVoteCount}} votes</p>
+
+                </div>
+                {% if not poll.voted %} 
+                    <input type="submit" class="submit" value="vote"></input> <!-- remove button if voted -->
+                {% endif %}
+
+                </form>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        {% endfor %}
+    {% else %}
+        
+    {% endif %}
+ 
+</div>
+<!-- partial -->
+<script src="{% static 'scripts/poll_sellect.js' %}"></script>
+</body>
+</html>
